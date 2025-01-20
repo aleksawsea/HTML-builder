@@ -16,6 +16,8 @@ files.then((files) => {
                 fileSize = (stat.size / 1024).toFixed(3);
                 console.log(`${fileName}  -   ${fileExt}  -   ${fileSize} kb`);
             });
+            stat.catch((err) => console.log(err));
         }
     });
 });
+files.catch((err) => console.log(err));
