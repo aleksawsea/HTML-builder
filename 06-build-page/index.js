@@ -7,7 +7,7 @@ async function BuildHTML() {
     await fs.mkdir(folderPath, { recursive: true });
     const existingFiles = await fs.readdir(folderPath);
     for (const file of existingFiles) {
-        await fs.rm(path.join(folderPath, file));
+        await fs.rm(path.join(folderPath, file), { recursive: true });
     };
     createIndex();
     createBundle()
@@ -17,7 +17,7 @@ async function BuildHTML() {
 
 async function createIndex() {
     let components = {};
-    const compFiles = await fs.readdir(path.join(__dirname, 'components'), {withFileTypes: true});
+    const compFiles = await fs.readdir(path.join(__dirname, 'components'), { withFileTypes: true });
     for (const file of compFiles) {
         const content = await fs.readFile(path.join(file.path, file.name), { encoding: 'utf8' });
         const key = path.basename(file.name, '.html')
