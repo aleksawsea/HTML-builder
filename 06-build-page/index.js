@@ -1,4 +1,5 @@
 const fs = require('fs/promises');
+const fsStreams = require('fs');
 const path = require('path');
 
 async function BuildHTML() {
@@ -20,6 +21,9 @@ async function BuildHTML() {
     const replacedFile = templateFile.replace(regExp, (_, placeholder) => {
         return components[placeholder];
     });
+    const indexFile = path.join(__dirname, 'project-dist', 'index.html');
+    const htmlStream = fsStreams.createWriteStream(indexFile);
+    htmlStream.write(replacedFile);
 }
 BuildHTML();
 
