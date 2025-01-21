@@ -9,6 +9,11 @@ async function BuildHTML() {
     for (const file of existingFiles) {
         await fs.rm(path.join(folderPath, file));
     };
+    createIndex();
+    createBundle()
+}
+
+async function createIndex() {
     let components = {};
     const compFiles = await fs.readdir(path.join(__dirname, 'components'), {withFileTypes: true});
     for (const file of compFiles) {
@@ -25,5 +30,17 @@ async function BuildHTML() {
     const htmlStream = fsStreams.createWriteStream(indexFile);
     htmlStream.write(replacedFile);
 }
-BuildHTML();
 
+async function createBundle() {
+    const bundleFile = path.join(__dirname, 'project-dist', 'style.css');
+    const writeStream = fsStreams.createWriteStream(bundleFile, { flags: 'a' });
+    const styles = await fs.readdir(path.join(__dirname, 'styles'), { withFileTypes: true });
+    for (const file of styles) {
+        const fileExt = path.extname(file.name);
+        if (file.isFile() && fileExt === '.css') {
+            const readStream = fsStreams.createReadStream(path.join(__dirname, 'styles', file.name));
+            readStream.pipe(writeStream);
+        }
+    };
+}
+BuildHTML();
