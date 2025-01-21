@@ -13,7 +13,7 @@ files.then((files) => {
             const stat = fs.stat(filePath);
             stat.then((stat) => {
                 fileSize = (stat.size / 1024).toFixed(3);
-                console.log(`${fileName}  -   ${fileExt}  -   ${fileSize} kb`);
+                console.log(`${fileName}  -   ${fileExt.slice(1)}  -   ${fileSize} kb`);
             });
             stat.catch((err) => console.log(err));
         }
