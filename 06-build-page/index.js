@@ -11,6 +11,8 @@ async function BuildHTML() {
     };
     createIndex();
     createBundle()
+    await fs.mkdir(path.join(__dirname, 'project-dist', 'assets'), { recursive: true });
+    copyFolderContent(path.join(__dirname, 'assets'), path.join(__dirname, 'project-dist', 'assets'));
 }
 
 async function createIndex() {
@@ -43,4 +45,19 @@ async function createBundle() {
         }
     };
 }
+
+async function copyFolderContent(srcName, destName) {
+    const filesForCopying = await fs.readdir(srcName, { withFileTypes: true });
+    await fs.mkdir(destName, { recursive: true });
+    for (const file of filesForCopying) {
+        const sourceFilePath = path.join(srcName, file.name);
+        const destinationFilePath = path.join(destName, file.name);
+        if (file.isDirectory()) {
+            await copyFolderContent(sourceFilePath, destinationFilePath);
+        } else if (file.isFile()) {
+            await fs.copyFile(sourceFilePath, destinationFilePath);
+        }
+    };
+}
+
 BuildHTML();
