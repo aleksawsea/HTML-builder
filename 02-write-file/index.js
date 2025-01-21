@@ -18,7 +18,7 @@ rl.on('line', (line) => {
     }
 });
 rl.on('close', () => {
-    console.log('Thanks for the cross-check, have a good day! :)')
+    console.log('\n' + 'Thanks for the cross-check, have a good day! :)')
 })
 rl.on('error', (err) => {
     console.log(err);
