@@ -12,14 +12,17 @@ rl.on('line', (line) => {
         rl.close();
     } else {
         fileStream.write(line + '\n');
-        process.on('SIGINT', () => {
-            rl.close();
-        });
     }
 });
+
+process.on('SIGINT', () => {
+    rl.close();
+});
+
 rl.on('close', () => {
     console.log('\n' + 'Thanks for the cross-check, have a good day! :)')
 })
+
 rl.on('error', (err) => {
     console.log(err);
 });
